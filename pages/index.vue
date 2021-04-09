@@ -30,7 +30,6 @@
 <script>
 
   import gql from "graphql-tag";
-
   import {groupBy, filter, map, each} from 'lodash';
   import Message from "../components/message";
   import PerfectScrollbar from 'perfect-scrollbar';
@@ -43,8 +42,8 @@
     text
     created_at
   }
-}
-`;
+  }
+  `;
 
   const QUERY_CHAT = gql`
   query AllMessages {
@@ -56,8 +55,9 @@
     created_at
     }
   }
-}
-`;
+  }
+  `;
+
 const SEND_MESSAGE = gql`
   mutation($sender: String!,$text: String!) {
     createNote(input:{
@@ -69,7 +69,7 @@ const SEND_MESSAGE = gql`
     text
   }
   }
-`;
+  `;
 
   export default {
     name: "index.vue",
@@ -85,14 +85,10 @@ const SEND_MESSAGE = gql`
         psContent: null,
         isActive: false,
       };
-    },
-   beforeCreate(){
-      
     }, 
     created(){
       this.$apollo.query({
-          query: QUERY_CHAT,
-
+        query: QUERY_CHAT,
         }).then((res) => {
           if(res.data.findNotes.items.length===0){
           this.$apollo.mutate({
@@ -105,10 +101,8 @@ const SEND_MESSAGE = gql`
         })
     },
     mounted() {
-      
       this.$apollo.query({
           query: QUERY_CHAT,
-
         }).then((res) => {
           var chat = res.data;
           console.log(chat.findNotes.items)
@@ -119,7 +113,6 @@ const SEND_MESSAGE = gql`
               this.psContent = new PerfectScrollbar('.chat-body-content', {
                 suppressScrollX: true
               });
-
               this.$nextTick(() => {
                 let content = this.$el.querySelector('.chat-body-content');
                 if (content) {
@@ -132,11 +125,9 @@ const SEND_MESSAGE = gql`
     },
 
     methods: {
-
       login() {
-          this.$apollo.query({
-          query: QUERY_CHAT,
-
+        this.$apollo.query({
+        query: QUERY_CHAT,
         }).then((res) => {
           var chat = res.data;
           this.user=this.sender
@@ -145,12 +136,10 @@ const SEND_MESSAGE = gql`
           console.log(this.messages)
           this.messages = this.prepareMessages(chat.findNotes.items);
           if (process.client) {
-
             if (!this.psContent) {
               this.psContent = new PerfectScrollbar('.chat-body-content', {
                 suppressScrollX: true
               });
-
               this.$nextTick(() => {
                 let content = this.$el.querySelector('.chat-body-content');
                 if (content) {
@@ -166,9 +155,7 @@ const SEND_MESSAGE = gql`
       },
       isLoggedIn() {
         this.token=true
-        
       },
-
       sendMessage() {
         if (this.text.length) {
           this.$apollo.mutate({
